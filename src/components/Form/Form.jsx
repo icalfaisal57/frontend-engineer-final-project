@@ -6,9 +6,10 @@ import { useState } from "react";
 function Form(props) {
 	const {choices, setChoice} = props;
 	const [provinsi, setProvinsi] = useState("");
-	const statuschoice = dataa.indonesia;
+	const {statuschoice,setSummary} = props;
 	const [stats, setStats] = useState("");
 	const [jumlah,setJumlah]=useState("")
+
 
 	//membuat state untuk jumlah
 	function handleJumlah(event){
@@ -52,11 +53,45 @@ function Form(props) {
 						meninggal: item.meninggal + jumlahINT,
 					};
 				}
-				return item;
 			}
 			return item;
 		});
 		setChoice(updatedData);
+		//menambah kondisi untun mengupdate summary
+		const updatedSummary = statuschoice.map((item) => {
+			if (stats === "Positif") {
+				if (item.status === stats) {
+					return {
+						...item,
+						total: item.total + jumlahINT,
+					};
+				}
+			} else if (stats === "Meninggal") {
+				if (item.status === stats) {
+					return {
+						...item,
+						total: item.total + jumlahINT,
+					};
+				}
+				return {
+					...item,
+					total: item.total - jumlahINT,
+				};//jumlah positif akan berkurang jika yang meninggal bertambah
+			} else if (stats === "Sembuh") {
+				if (item.status === stats) {
+					return {
+						...item,
+						total: item.total + jumlahINT,
+					};
+				}
+				return {
+					...item,
+					total: item.total - jumlahINT,
+				};//jumlah positif akan berkurang jika yang sembuh bertambah
+			} 
+			return item;
+		});
+		setSummary(updatedSummary);
 	}
 
 	return (
