@@ -1,16 +1,18 @@
-import styles from "./Tables.module.css";
-import data from "../../utils/constants/provinces";
+import styless from "./Tables.module.css";
 import Province from "../Province/Province";
 import { v4 as uuidv4 } from "uuid";
-function Tables() {
-	const tables = data.provinces;
+
+function Tables(props) {
+	const {choices,setChoice} = props;
+	// console.log(choices)
+	
 	return (
-		<div className={styles.container}>
-			<div className={styles.header}>
+		<div className={styless.container}>
+			<div className={styless.header}>
 				Provinsi
-				<div className={styles.subheader}>Data Covid Berdasarkan Provinsi</div>
+				<div className={styless.subheader}>Data Covid Berdasarkan Provinsi</div>
 			</div>
-			<div className={styles.table}>
+			<div className={styless.table}>
 				<table>
 					<thead>
 						<tr>
@@ -22,11 +24,12 @@ function Tables() {
 						</tr>
 					</thead>
 					<tbody>
-						{tables.map((province) => {
+						{choices.map((province) => {
 							return <Province key={uuidv4()} province={province} />;
 						})}
 					</tbody>
 				</table>
+
 			</div>
 		</div>
 	);

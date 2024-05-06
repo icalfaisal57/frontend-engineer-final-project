@@ -69,11 +69,17 @@
 /* large screen */
 @media (min-width : 992px) {
     .container{
-        flex-direction: row;
+        flex-direction: column;
         
     }
 
     .left, .right{
         width: 50%;
+    }
+    .formcontainer{
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        margin-top: 20px;
     }
 }
