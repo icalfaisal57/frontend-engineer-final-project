@@ -1,16 +1,11 @@
 import styles from "./Form.module.css";
-import styless from "./Tables.module.css";
-import data from "../../utils/constants/provinces";
-import Province from "../Province/Province";
 import dataa from "../../utils/constants/indonesia";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
 function Form(props) {
-	const { province } = props;
-	const [choices, setChoice] = useState(data.provinces);
+	const {choices, setChoice} = props;
 	const [provinsi, setProvinsi] = useState("");
-	const { status } = props;
 	const statuschoice = dataa.indonesia;
 	const [stats, setStats] = useState("");
 	const [jumlah,setJumlah]=useState("")
@@ -21,13 +16,11 @@ function Form(props) {
 		console.log(jumlah)
 	}
 	// //membuat state untuk mengambil provinsi
-	// const [provinsi, setProvinsi] = useState("");
 	function handleProvinsi(event) {
 		setProvinsi(event.target.value);
 	}
 
 	// //membuat state untuk status
-	// const [stats, setStats] = useState("")
 	function handleStats(event) {
 		setStats(event.target.value);
 	}
@@ -35,13 +28,10 @@ function Form(props) {
 	//handle submit
 	function handleSubmit(e) {
 		e.preventDefault();
-		// console.log(provinsi)
-		// console.log(stats)
 		const jumlahINT = parseInt(jumlah);
 		const updatedData = choices.map((item) => {
 			if (item.kota === provinsi) {
 				if (stats === "Positif") {
-					// console.log("sadasdasd")
 					return {
 						...item, // Salin semua properti dari objek item
 						kasus: item.kasus + jumlahINT, // Tambah jumlahINT ke jumlahINT kasus positif
@@ -66,35 +56,11 @@ function Form(props) {
 			}
 			return item;
 		});
-		// console.log(updatedData);
 		setChoice(updatedData);
-		// console.log(choices);
 	}
 
 	return (
 		<div className={styles.container}>
-			<div className={styless.header}>
-				Provinsi
-				<div className={styless.subheader}>Data Covid Berdasarkan Provinsi</div>
-			</div>
-			<div className={styless.table}>
-				<table>
-					<thead>
-						<tr>
-							<th>Provinsi</th>
-							<th>Positif</th>
-							<th>Sembuh</th>
-							<th>Meninggal</th>
-							<th>Dirawat</th>
-						</tr>
-					</thead>
-					<tbody>
-						{choices.map((province) => {
-							return <Province key={uuidv4()} province={province} />;
-						})}
-					</tbody>
-				</table>
-			</div>
 			<div className={styles.formcontainer}>
 				<div className={styles.left}>
 					<div className={styles.image}>
