@@ -1,26 +1,36 @@
-import styles from "./Main.module.css";
-import data from "../../utils/constants/indonesia";
-import Indonesia from "../Indonesia/Indonesia";
+import { useContext, useEffect } from "react";
+import Global from "../Global/Global";
 import { v4 as uuidv4 } from "uuid";
+import GlobalContext from "../../Context/GlobalContext";
+import ENDPOINTS from "../../utils/constants/endpoint";
+import axios from "axios";
+import StyledMain from "./Main.styled";
 
-function Main(props) {
-	const { statuschoice, setSummary } = props;
-
+function Main() {
+	const {globals,setGlobals}=useContext(GlobalContext)
+	useEffect(() => {
+		getGlobals();
+	}, []);
+	async function getGlobals() {
+		const response = await axios(ENDPOINTS.GLOBALS);
+		setGlobals(response.data.global);
+	}
 	return (
-		<div className={styles.container}>
-			<div className={styles.header}>Indonesia</div>
-			<div className={styles.subhead}>Data Covid Berdasarkan Indonesia</div>
-			<div className={styles.row}>
-					{statuschoice.map((indonesia) => {
+		<StyledMain>
+			<div className="container">
+				<div className="header">Global Situation</div>
+				<div className="subhead">Data Covid Berdasarkan Global</div>
+				<div className="row">
+					{globals.map((global) => {
 						return (
-							<div className={styles.list} key={uuidv4()}>
-								<Indonesia indonesia={indonesia} />
+							<div className="list" key={uuidv4()}>
+								<Global global={global} />
 							</div>
 						);
 					})}
-				
+				</div>
 			</div>
-		</div>
+		</StyledMain>
 	);
 }
 

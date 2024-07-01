@@ -1,7 +1,6 @@
-import styles from "./Form.module.css";
-import dataa from "../../utils/constants/indonesia";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import StyledForm from "./Form.styled";
 
 function Form(props) {
 	const {choices, setChoice} = props;
@@ -95,72 +94,79 @@ function Form(props) {
 	}
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.formcontainer}>
-				<div className={styles.left}>
-					<div className={styles.image}>
-						<img src="src/assets/3.svg" alt="" />
+		<StyledForm>
+			<div className="container">
+				<div className="formcontainer">
+					<div className="left">
+						<div className="image">
+							<img src="src/assets/3.svg" alt="" />
+						</div>
 					</div>
-				</div>
-				<div className={styles.right}>
-					<div className={styles.form}>
-						<h2>Form Covid</h2>
-						<form onSubmit={handleSubmit}>
-							<div>
-								<label htmlFor="select1" className={styles.label}>
-									Provinsi :
-								</label>
-								<select className={styles.select} onChange={handleProvinsi}>
-									<option value="">{provinsi}</option>
-									{choices.map((choice) => {
-										return (
-											<option
-												key={uuidv4()}
-												className={styles.select_option}
-												choice={choice}
-												value={choice.kota}>
-												{choice.kota}
-											</option>
-										);
-									})}
-								</select>
-							</div>
-							<div>
-								<label htmlFor="select2" className={styles.label}>
-									Status
-								</label>
-								<select className={styles.select} onChange={handleStats}>
-									<option value="">{stats}</option>
-									{statuschoice.map((status) => {
-										return (
-											<option
-												key={uuidv4()}
-												className={styles.select_option}
-												status={status}
-												value={status.status}>
-												{status.status}
-											</option>
-										);
-									})}
-								</select>
-							</div>
-							<div>
-								<label htmlFor="select3" className={styles.label}>
-									Jumlah
-								</label>
-									<input type="number" value={jumlah} onChange={handleJumlah} className={styles.select}/>
-							</div>
-							<div className={styles.buttonform}>
-								<button type="submit" className={styles.button}>
-									Submit
-								</button>
-								<p></p>
-							</div>
-						</form>
+					<div className="right">
+						<div className="form">
+							<h2>Form Covid</h2>
+							<form onSubmit={handleSubmit}>
+								<div>
+									<label htmlFor="select1" className="label">
+										Provinsi :
+									</label>
+									<select className="select" onChange={handleProvinsi}>
+										<option value="">{provinsi}</option>
+										{choices.map((choice) => {
+											return (
+												<option
+													key={uuidv4()}
+													className="select_option"
+													choice={choice}
+													value={choice.kota}>
+													{choice.kota}
+												</option>
+											);
+										})}
+									</select>
+								</div>
+								<div>
+									<label htmlFor="select2" className="label">
+										Status
+									</label>
+									<select className="select" onChange={handleStats}>
+										<option value="">{stats}</option>
+										{statuschoice.map((status) => {
+											return (
+												<option
+													key={uuidv4()}
+													className="select_option"
+													status={status}
+													value={status.status}>
+													{status.status}
+												</option>
+											);
+										})}
+									</select>
+								</div>
+								<div>
+									<label htmlFor="select3" className="label">
+										Jumlah
+									</label>
+									<input
+										type="number"
+										value={jumlah}
+										onChange={handleJumlah}
+										className="select"
+									/>
+								</div>
+								<div className="buttonform">
+									<button type="submit" className="button">
+										Submit
+									</button>
+									<p></p>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</StyledForm>
 	);
 }
 
