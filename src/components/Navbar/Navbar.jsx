@@ -1,18 +1,37 @@
-import styles from "./Navbar.module.css";
+import { Link } from "react-router-dom";
+import StyledNavbar from "./Navbar.styled";
 
 function Navbar() {
 	return (
-		<div className={styles.container}>
-			<nav className={styles.navbar}>
-				<h2 className={styles.navbar__brand}>Covid App</h2>
-				<ul className={styles.navbar__list}>
-					<li className={styles.navbar__item}>Global</li>
-					<li className={styles.navbar__item}>Indonesia</li>
-					<li className={styles.navbar__item}>Provinsi</li>
-					<li className={styles.navbar__item}>About</li>
-				</ul>
-			</nav>
-		</div>
+		<StyledNavbar>
+			<div className="container">
+				<nav className="navbar">
+					<h2 className="navbar__brand">Covid App</h2>
+					<ul className="navbar__list">
+						<li className="navbar__item">
+							<Link className="Navbar__link" to="/">
+								Global
+							</Link>
+						</li>
+						<li className="navbar__item">
+							<Link className="Navbar__link" to="/indonesia">
+								Indonesia
+							</Link>
+						</li>
+						<li className="navbar__item">
+							<Link className="Navbar__link" to="/provinsi">
+								Provinsi
+							</Link>
+						</li>
+						<li className="navbar__item">
+							<Link className="Navbar__link" to="/about">
+								About
+							</Link>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</StyledNavbar>
 	);
 }
 
