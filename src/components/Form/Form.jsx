@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import StyledForm from "./Form.styled";
 import TableContext from "../../Context/TableContext";
 
-function Form(props) {
+function Form() {
 	const { provinces, setProvinces } = useContext(TableContext);
 	const [provinsi, setProvinsi] = useState("");
 	const [stats, setStats] = useState("");
