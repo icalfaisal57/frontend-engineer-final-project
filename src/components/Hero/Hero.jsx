@@ -21,7 +21,7 @@ function Hero() {
 					<div className="hero__right">
 						<img
 							className="hero__image"
-							src="src/assets/2.svg"
+							src="2.svg"
 							alt="gambar"
 						/>
 					</div>
