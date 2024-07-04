@@ -1,96 +1,68 @@
+// src/components/Form/Form.js
+import React, { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
 import StyledForm from "./Form.styled";
+import TableContext from "../../Context/TableContext";
 
 function Form(props) {
-	const {choices, setChoice} = props;
+	const { provinces, setProvinces } = useContext(TableContext);
 	const [provinsi, setProvinsi] = useState("");
-	const {statuschoice,setSummary} = props;
 	const [stats, setStats] = useState("");
-	const [jumlah,setJumlah]=useState("")
+	const [jumlah, setJumlah] = useState("");
 
-
-	//membuat state untuk jumlah
-	function handleJumlah(event){
-		setJumlah(event.target.value)
-		console.log(jumlah)
+	// Handle changes
+	function handleJumlah(event) {
+		setJumlah(event.target.value);
 	}
-	// //membuat state untuk mengambil provinsi
+
 	function handleProvinsi(event) {
 		setProvinsi(event.target.value);
 	}
 
-	// //membuat state untuk status
 	function handleStats(event) {
 		setStats(event.target.value);
 	}
 
-	//handle submit
+	// Handle form submission
 	function handleSubmit(e) {
 		e.preventDefault();
 		const jumlahINT = parseInt(jumlah);
-		const updatedData = choices.map((item) => {
-			if (item.kota === provinsi) {
+
+		const updatedData = provinces.map((item) => {
+			if (item.name === provinsi) {
 				if (stats === "Positif") {
 					return {
-						...item, // Salin semua properti dari objek item
-						kasus: item.kasus + jumlahINT, // Tambah jumlahINT ke jumlahINT kasus positif
-						dirawat: item.dirawat + jumlahINT, // Tambah jumlahINT ke jumlahINT yang dirawat
+						...item,
+						numbers: {
+							...item.numbers,
+							confirmed: item.numbers.confirmed + jumlahINT,
+							treatment: item.numbers.treatment + jumlahINT,
+						},
 					};
 				} else if (stats === "Sembuh") {
 					return {
 						...item,
-						dirawat: item.dirawat - jumlahINT, //jika pasien sembuh maka data pasien yang dirawat berkurang
-						kasus: item.kasus - jumlahINT,
-						sembuh: item.sembuh + jumlahINT,
+						numbers: {
+							...item.numbers,
+							recovered: item.numbers.recovered + jumlahINT,
+							treatment: item.numbers.treatment - jumlahINT,
+						},
 					};
 				} else {
 					return {
 						...item,
-						dirawat: item.dirawat - jumlahINT,
-						kasus: item.kasus - jumlahINT,
-						meninggal: item.meninggal + jumlahINT,
+						numbers: {
+							...item.numbers,
+							death: item.numbers.death + jumlahINT,
+							treatment: item.numbers.treatment - jumlahINT,
+						},
 					};
 				}
 			}
 			return item;
 		});
-		setChoice(updatedData);
-		//menambah kondisi untun mengupdate summary
-		const updatedSummary = statuschoice.map((item) => {
-			if (stats === "Positif") {
-				if (item.status === stats) {
-					return {
-						...item,
-						total: item.total + jumlahINT,
-					};
-				}
-			} else if (stats === "Meninggal") {
-				if (item.status === stats) {
-					return {
-						...item,
-						total: item.total + jumlahINT,
-					};
-				}
-				return {
-					...item,
-					total: item.total - jumlahINT,
-				};//jumlah positif akan berkurang jika yang meninggal bertambah
-			} else if (stats === "Sembuh") {
-				if (item.status === stats) {
-					return {
-						...item,
-						total: item.total + jumlahINT,
-					};
-				}
-				return {
-					...item,
-					total: item.total - jumlahINT,
-				};//jumlah positif akan berkurang jika yang sembuh bertambah
-			} 
-			return item;
-		});
-		setSummary(updatedSummary);
+
+		setProvinces(updatedData);
 	}
 
 	return (
@@ -112,17 +84,14 @@ function Form(props) {
 									</label>
 									<select className="select" onChange={handleProvinsi}>
 										<option value="">{provinsi}</option>
-										{choices.map((choice) => {
-											return (
-												<option
-													key={uuidv4()}
-													className="select_option"
-													choice={choice}
-													value={choice.kota}>
-													{choice.kota}
-												</option>
-											);
-										})}
+										{provinces.map((choice) => (
+											<option
+												key={uuidv4()}
+												className="select_option"
+												value={choice.name}>
+												{choice.name}
+											</option>
+										))}
 									</select>
 								</div>
 								<div>
@@ -131,17 +100,9 @@ function Form(props) {
 									</label>
 									<select className="select" onChange={handleStats}>
 										<option value="">{stats}</option>
-										{statuschoice.map((status) => {
-											return (
-												<option
-													key={uuidv4()}
-													className="select_option"
-													status={status}
-													value={status.status}>
-													{status.status}
-												</option>
-											);
-										})}
+										<option value="Positif">Positif</option>
+										<option value="Sembuh">Sembuh</option>
+										<option value="Meninggal">Meninggal</option>
 									</select>
 								</div>
 								<div>

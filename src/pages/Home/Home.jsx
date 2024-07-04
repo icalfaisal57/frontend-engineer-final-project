@@ -7,7 +7,7 @@ function Home() {
 		<>
 			<div>
 				<Hero></Hero>
-				<Main></Main>
+				<Main detail={"global"} title={"Global"}></Main>
 				<Regions></Regions>
 			</div>
 		</>

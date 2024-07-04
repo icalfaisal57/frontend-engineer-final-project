@@ -6,28 +6,35 @@ import ENDPOINTS from "../../utils/constants/endpoint";
 import axios from "axios";
 import StyledMain from "./Main.styled";
 
-function Main() {
-	const {globals,setGlobals}=useContext(GlobalContext)
+function Main(props) {
+	const { detail, title } = props;
+	const { globals, setGlobals } = useContext(GlobalContext);
+
 	useEffect(() => {
 		getGlobals();
-	}, []);
+	}, [detail]);
+
 	async function getGlobals() {
-		const response = await axios(ENDPOINTS.GLOBALS);
-		setGlobals(response.data.global);
+		const url = ENDPOINTS.DETAIL(detail);
+		try {
+			const response = await axios.get(url);
+			setGlobals(response.data[detail]);
+		} catch (error) {
+			console.error("Error fetching data:", error);
+		}
 	}
+
 	return (
 		<StyledMain>
 			<div className="container">
-				<div className="header">Global Situation</div>
-				<div className="subhead">Data Covid Berdasarkan Global</div>
+				<div className="header">{title} Situation</div>
+				<div className="subhead">Data Covid Berdasarkan {title}</div>
 				<div className="row">
-					{globals.map((global) => {
-						return (
-							<div className="list" key={uuidv4()}>
-								<Global global={global} />
-							</div>
-						);
-					})}
+					{globals.map((global) => (
+						<div className="list" key={uuidv4()}>
+							<Global global={global} />
+						</div>
+					))}
 				</div>
 			</div>
 		</StyledMain>

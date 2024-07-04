@@ -16,17 +16,21 @@ import Indonesia from "./pages/Home/Covid/Indonesia";
 import Provinsi from "./pages/Home/Covid/Provinsi";
 import About from "./pages/Home/Covid/About";
 import { HelmetProvider } from "react-helmet-async";
+import TableContext from "./Context/TableContext";
 
 function App() {
 	const [choices, setChoice] = useState(data.provinces);
 	// const [statuschoice, setSummary] = useState(dataa.indonesia);
 	const [globals,setGlobals] = useState([])
 	const [regions, setRegions] = useState([]);
+	const [provinces, setProvinces] = useState([]);
 	const contextValue = {
 		globals,
 		setGlobals,
 		regions,
-		setRegions
+		setRegions,
+		provinces,
+		setProvinces
 	}
 
 	return (
@@ -34,17 +38,22 @@ function App() {
 			<div>
 				<GlobalContext.Provider value={contextValue}>
 					<RegionContext.Provider value={contextValue}>
-						<Navbar></Navbar>
-						<Layout>
-							<Routes>
-								<Route path="/" element={<Home></Home>}></Route>
-								<Route
-									path="/indonesia"
-									element={<Indonesia></Indonesia>}></Route>
-								<Route path="/provinsi" element={<Provinsi></Provinsi>}></Route>
-								<Route path="/about" element={<About />}></Route>
-							</Routes>
-						</Layout>
+						<TableContext.Provider value={contextValue}>
+							{/* saya ragu karena banyak menggunakan context jika banyak context lainnya navbar dll akan semakin menjorok ke dalam apakah menggunakan context saya sudah benar ka */}
+							<Navbar></Navbar>
+							<Layout>
+								<Routes>
+									<Route path="/" element={<Home></Home>}></Route>
+									<Route
+										path="/indonesia"
+										element={<Indonesia></Indonesia>}></Route>
+									<Route
+										path="/provinsi"
+										element={<Provinsi></Provinsi>}></Route>
+									<Route path="/about" element={<About />}></Route>
+								</Routes>
+							</Layout>
+						</TableContext.Provider>
 					</RegionContext.Provider>
 				</GlobalContext.Provider>
 			</div>
